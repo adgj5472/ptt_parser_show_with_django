@@ -6,7 +6,7 @@ import django
 django.setup()
 #python外部腳本連接django model---------------------------------------
 from img.models import img
-
+import json
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -99,6 +99,7 @@ def main(crawler_pages=2):
 
     # 抓取 文章標題 網址 推文數
     while index_list:
+        
         index = index_list.pop(0)
         res = rs.get(index, verify=False)
         # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
@@ -108,7 +109,9 @@ def main(crawler_pages=2):
         else:
             article_list += craw_page(res, push_rate)
         time.sleep(0.05)
-
+    
+    print(article_list[0]['title'])
+    
     total = len(article_list)
     #print(article_list)
     count = 0
@@ -132,7 +135,10 @@ def main(crawler_pages=2):
             write_db(image_seq)
             print('download: {:.2%}'.format(count / total))
         time.sleep(0.05)
+    #print(title_seq)
+    #print(image_seq)
 
+    
     print("下載完畢...")
     print('execution time: {:.3}s'.format(time.time() - start_time))
 
@@ -140,8 +146,8 @@ def main(crawler_pages=2):
 if __name__ == '__main__':
     print('main')
     main()
-    schedule.every(30).minutes.do(main)
-    while True:
-        print('wating......')
-        schedule.run_pending()
-        time.sleep(1)
+#    schedule.every(30).minutes.do(main)
+#    while True:
+#        print('wating......')
+#        schedule.run_pending()
+#        time.sleep(1)

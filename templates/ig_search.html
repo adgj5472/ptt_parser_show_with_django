@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> IG SEARCH </title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://getbootstrap.com/dist/css/simple-sidebar.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://adblockers.opera-mini.net/css_block/default-domainless.css" type="text/css" />
+        <style media="screen">
+          .content-main{
+            position: absolute;
+            font-size: 20px;
+            top: 45%;
+            left: 35%;
+          }
+        </style>
+    </head>
+    <body style="background-color: #CCFF99;">
+      <div style="text-align:center;" class="content-main">
+        <div id="wrapper">
+          <!-- Sidebar -->
+      </div>
+            <form action="" method="GET">
+                <strong><p>只能爬取公開帳號</p></strong>
+                <label for="username">爬取的 IG 帳號</label>
+                <input id="username" type="text" name="username">
+                <input type="submit" class="btn btn-info" value="Submit">
+            </form>
+            <a href="{% url 'index' %}">回首頁</a>
+      </div>
+    </body>
+</html>

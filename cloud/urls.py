@@ -18,6 +18,7 @@ from django.contrib import admin
 from img import views as img_views
 urlpatterns = [
     url(r'^ppp_admin/', admin.site.urls),
-    #url(r'^$', img_views.index),
-    url(r'^$', img_views.index),
+    url(r'^$', img_views.index, name='index'),
+    url(r'^ptt_show/$', img_views.ptt,name='ptt_show'),
+    url(r'^ig_search/$', img_views.ig_search, name='ig_search'),
 ]

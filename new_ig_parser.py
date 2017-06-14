@@ -43,13 +43,13 @@ def little(username):
     for img in soup.select('img'):
         print(img['src'])
         urllist.append(img['src'])
-    for i in range(1,len(urllist)):  
+    for i in range(1,len(urllist)):
         is_exist=ig_img.objects.filter(url=urllist[i])
         if not is_exist:
             data=urllist[i]
             name=username
             ig_img.objects.create(username=name,url=data)
-        
+
     driver.close()  # 關閉瀏覽器
     driver.quit()   # 結束全部視窗
 def parser(username):

@@ -5,7 +5,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cloud.settings")
 import django
 django.setup()
 #python外部腳本連接django model---------------------------------------
-from img.models import img
+from img.models import img,ig_img
 import json
 import time
 import requests
@@ -13,6 +13,8 @@ from bs4 import BeautifulSoup
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import schedule
 import download_beauty
+
+from new_ig_parser import little,parser
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 rs = requests.session()
@@ -137,8 +139,8 @@ def main(crawler_pages=2):
         time.sleep(0.05)
     #print(title_seq)
     #print(image_seq)
+        
 
-    
     print("下載完畢...")
     print('execution time: {:.3}s'.format(time.time() - start_time))
 

@@ -10,8 +10,8 @@ import time
 import requests
 from selenium import webdriver
 from bs4 import BeautifulSoup
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
+#from pydrive.auth import GoogleAuth
+#from pydrive.drive import GoogleDrive
 import shutil
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ def little(username):
         driver.find_element_by_css_selector("._8imhp").click()
         #driver.find_element_by_css_selector("._glz1g").click()
     except:
-        print()
+        time.sleep(0.5)
 
     while(True):
         old=driver.execute_script('return document.body.scrollHeight;')         #原本網頁頁面高度
@@ -41,7 +41,7 @@ def little(username):
     soup=BeautifulSoup(pageSource,"html.parser")
 
     for img in soup.select('img'):
-        print(img['src'])
+        #print(img['src'])
         urllist.append(img['src'])
     for i in range(1,len(urllist)):
         is_exist=ig_img.objects.filter(url=urllist[i])
@@ -63,7 +63,7 @@ def parser(username):
         driver.find_element_by_css_selector("._8imhp").click()
         #driver.find_element_by_css_selector("._glz1g").click()
     except:
-        print()
+        time.sleep(0.5)
 
     while(True):
         old=driver.execute_script('return document.body.scrollHeight;')         #原本網頁頁面高度
@@ -91,7 +91,7 @@ def parser(username):
                 data=img['src']
                 name=username
                 ig_img.objects.create(username=name,url=data)
-            print(img['src'])
+            #print(img['src'])
     #return urllist
     driver.close()  # 關閉瀏覽器
     driver.quit()   # 結束全部視窗

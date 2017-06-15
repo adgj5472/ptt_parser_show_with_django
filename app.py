@@ -19,6 +19,54 @@ from new_ig_parser import little,parser
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 rs = requests.session()
 
+#--------------------  I G  --------------------------------
+from selenium import webdriver
+import shutil
+import sqlite3
+
+#-------------------------------------------
+def little(username):
+    username=username[0]
+    print(username)
+    
+    
+    #driver = webdriver.PhantomJS(executable_path='./phantomjs.exe')  # PhantomJs
+    url='https://www.instagram.com'
+    driver.get(url+'/'+username)                #要爬的網址
+    try:
+        #driver.find_element_by_link_text("載入更多內容").click(): #按下"載入更多內容"
+        driver.find_element_by_css_selector("._8imhp").click()
+        #driver.find_element_by_css_selector("._glz1g").click()
+    except:
+        time.sleep(0.5)
+
+    while(True):
+        old=driver.execute_script('return document.body.scrollHeight;')         #原本網頁頁面高度
+        driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')  # 重複往下捲動
+        time.sleep(0.8)
+        new=driver.execute_script('return document.body.scrollHeight;')         #新的網頁頁面高度
+        if(old==new):   	                                                    #判斷式成立為已到頁面底部
+            break
+
+    urllist=[]
+    pageSource = driver.page_source  # 取得網頁原始碼
+    soup=BeautifulSoup(pageSource,"html.parser")
+
+    for img in soup.select('img'):
+        #print(img['src'])
+        urllist.append(img['src'])
+    for i in range(1,len(urllist)):
+        is_exist=ig_img.objects.filter(url=urllist[i])
+        if is_exist:
+            print('a')
+            break
+        if not is_exist:
+            data=urllist[i]
+            name=username
+            ig_img.objects.create(username=name,url=data)
+
+
+
 
 def get_page_number(content):
     start_index = content.find('index')
@@ -72,7 +120,22 @@ def craw_page(res, push_rate):
             print('本文已被刪除', e)
     return article_seq
 
+def write_ig_db():
+    global driver
+    driver = webdriver.Chrome(executable_path=r'chromedriver.exe') # chrome瀏覽器
+    conn=sqlite3.connect('db.sqlite3')
+    cursor=conn.cursor()
+    cursor.execute('select distinct username from img_ig_img')
+    values= cursor.fetchall()
+    print(values)
+    for user in values:
+        little(user)
+        
+    driver.close()  # 關閉瀏覽器
+    driver.quit()   # 結束全部視窗
+    del driver
 
+    
 def write_db(images):
     for image in images:
         is_exist=img.objects.filter(photo=image)
@@ -139,7 +202,7 @@ def main(crawler_pages=2):
         time.sleep(0.05)
     #print(title_seq)
     #print(image_seq)
-        
+    write_ig_db()    #IG 爬蟲
 
     print("下載完畢...")
     print('execution time: {:.3}s'.format(time.time() - start_time))

@@ -52,6 +52,7 @@ def little(username):
 
     driver.close()  # 關閉瀏覽器
     driver.quit()   # 結束全部視窗
+    del driver
 def parser(username):
     driver = webdriver.Chrome(executable_path=r'chromedriver.exe') # chrome瀏覽器
     #driver = webdriver.PhantomJS(executable_path='./phantomjs/bin/phantomjs.exe')  # PhantomJs
@@ -95,6 +96,7 @@ def parser(username):
     #return urllist
     driver.close()  # 關閉瀏覽器
     driver.quit()   # 結束全部視窗
+    del driver
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #main
 #a=parser('cyc.85')
